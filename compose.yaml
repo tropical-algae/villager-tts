@@ -1,0 +1,41 @@
+x-villager-tts: &villager-tts
+  restart: unless-stopped
+  ports:
+    - "${VILLAGER_TTS_PORT:-8000}:${VILLAGER_TTS_PORT:-8000}"
+  environment:
+    VILLAGER_TTS_PORT: "${VILLAGER_TTS_PORT:-8000}"
+  env_file:
+    - path: .env
+      required: false
+
+services:
+  cpu:
+    <<: *villager-tts
+    profiles: [cpu]
+    build:
+      context: .
+      target: cpu
+      secrets:
+        - HF_TOKEN
+    image: villager-tts:cpu
+
+  cuda:
+    <<: *villager-tts
+    profiles: [cuda]
+    build:
+      context: .
+      target: cuda
+      secrets:
+        - HF_TOKEN
+    image: villager-tts:cuda
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+
+secrets:
+  HF_TOKEN:
+    environment: HF_TOKEN

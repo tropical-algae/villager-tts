@@ -1,0 +1,54 @@
+# Local configuration and credentials
+.env
+.env.*
+!.env.example
+
+# Python environments, caches and build output
+.venv/
+**/.venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+.mypy_cache/
+.pytest_cache/
+.ruff_cache/
+.hypothesis/
+.nox/
+.tox/
+build/
+dist/
+
+# Coverage and test reports
+.coverage
+.coverage.*
+coverage.xml
+htmlcov/
+junit.xml
+.cache/
+
+# Local models; keep models/manifest.yaml
+models/rvc/
+models/runtime/
+models/tts/
+models/villager/
+
+# Generated audio, measurements and temporary analysis
+artifacts/
+tmp/
+*.l16
+*.wav
+*.log
+
+# Development-only research and design material
+benchmarks/
+docs/
+
+# Local editor, OS and agent state
+.agents/
+.aws/
+.codex/
+.idea/
+.vscode/
+.DS_Store
+*.swp
+*~

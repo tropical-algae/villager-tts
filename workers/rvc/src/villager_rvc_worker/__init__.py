@@ -1,0 +1,1 @@
+"""Isolated RVC inference worker."""

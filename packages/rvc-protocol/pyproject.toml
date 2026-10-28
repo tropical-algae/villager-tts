@@ -1,0 +1,12 @@
+[build-system]
+requires = ["hatchling>=1.27"]
+build-backend = "hatchling.build"
+
+[project]
+name = "villager-rvc-protocol"
+version = "0.1.0"
+description = "Shared framed transport for Villager TTS RVC processes"
+requires-python = ">=3.11,<3.12"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/villager_rvc_protocol"]

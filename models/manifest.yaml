@@ -1,0 +1,89 @@
+version: 1
+huggingface:
+  repository: tropicalalgae/tts-rvc-models
+  revision: 8291f081c191b58e8569e16068a15849eb185b2c
+artifacts:
+  - name: melo-tts-model
+    component: tts
+    path: tts/female/model.onnx
+    size_bytes: 170429550
+    sha256: bf30582eb1b012250a35b1a4a80e7dfbcf8485e7bb9de0d95efbbeef0e4ad86d
+    required: true
+  - name: melo-tts-tokens
+    component: tts
+    path: tts/female/tokens.txt
+    size_bytes: 655
+    sha256: d18664a7e12bd7ea1022ddaf951e534e136815016c5a809d6b64156bffb4369d
+    required: true
+  - name: melo-tts-lexicon
+    component: tts
+    path: tts/female/lexicon.txt
+    size_bytes: 6837671
+    sha256: 7236884b02435ac5d10cf69b4be40a61b45aa676b5300f0e412f185748fee528
+    required: true
+  - name: melo-tts-date-fst
+    component: tts
+    path: tts/female/date.fst
+    size_bytes: 59154
+    sha256: eb8aa079ae3cb81d8f4404992f39d61a0cb990947512b5b8d1e54d1f6980e718
+    required: true
+  - name: melo-tts-number-fst
+    component: tts
+    path: tts/female/number.fst
+    size_bytes: 64482
+    sha256: 743f402181fcfebf76cc2f0546b71fa26476e626fbe4e460fb7b4c3a7a8bd5bd
+    required: true
+  - name: fanchen-wnj-tts-model
+    component: tts
+    path: tts/male/vits-zh-hf-fanchen-wnj.onnx
+    size_bytes: 121076185
+    sha256: ccd592a5f6fa3f7e8840405c3422ffed9eba58db253d4abd82c75280db98c644
+    required: true
+  - name: fanchen-wnj-tts-tokens
+    component: tts
+    path: tts/male/tokens.txt
+    size_bytes: 331
+    sha256: 34b035b9aeb070df6188b022f29c00e0e142c7ade9f25611ced65db5e9cc8402
+    required: true
+  - name: fanchen-wnj-tts-lexicon
+    component: tts
+    path: tts/male/lexicon.txt
+    size_bytes: 2457843
+    sha256: 9af2824e49e731bf615927c768fdc36bbbe894cac57d8e0088d9c94331b07320
+    required: true
+  - name: fanchen-wnj-tts-date-fst
+    component: tts
+    path: tts/male/date.fst
+    size_bytes: 59154
+    sha256: eb8aa079ae3cb81d8f4404992f39d61a0cb990947512b5b8d1e54d1f6980e718
+    required: true
+  - name: fanchen-wnj-tts-number-fst
+    component: tts
+    path: tts/male/number.fst
+    size_bytes: 64482
+    sha256: 743f402181fcfebf76cc2f0546b71fa26476e626fbe4e460fb7b4c3a7a8bd5bd
+    required: true
+  - name: rvc-hubert
+    component: rvc
+    path: rvc/hubert_base.pt
+    size_bytes: 189507909
+    sha256: f54b40fd2802423a5643779c4861af1e9ee9c1564dc9d32f54f20b5ffba7db96
+    required: true
+  - name: rvc-rmvpe
+    component: rvc
+    path: rvc/rmvpe.pt
+    size_bytes: 181184272
+    sha256: 6d62215f4306e3ca278246188607209f09af3dc77ed4232efdd069798c4ec193
+    required: true
+  - name: villager-rvc-checkpoint
+    component: villager
+    path: villager/villagerminecraft.pth
+    size_bytes: 57587165
+    sha256: ecd43741aecd3d938fa10bf07356a5170234967c58cbcb3c0454b4db1794313a
+    required: true
+  - name: villager-rvc-index
+    component: villager
+    path: villager/added_IVF99_Flat_nprobe_1_villagerminecraft_v2.index
+    size_bytes: 12280099
+    sha256: d71ce8cf3d768feb48cc163876e2001238c94939b0620fd553bc982572ee6092
+    required: true

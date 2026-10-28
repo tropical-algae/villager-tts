@@ -1,0 +1,109 @@
+[build-system]
+requires = ["hatchling>=1.27"]
+build-backend = "hatchling.build"
+
+[project]
+name = "villager-rvc-worker"
+version = "0.1.0"
+description = "Dependency-isolated RVC inference worker for Villager TTS"
+requires-python = ">=3.11,<3.12"
+dependencies = [
+  "av>=14,<17",
+  "cython>=3.0,<4",
+  "faiss-cpu>=1.7.4,<2",
+  "fairseq @ git+https://github.com/Tps-F/fairseq.git@ff08af27e302625a27d3502b0791a9367c8af0c7",
+  "librosa>=0.10.1,<1",
+  "numpy==1.26.4",
+  "onnxruntime>=1.18,<2",
+  "praat-parselmouth>=0.4.3,<1",
+  "pyworld>=0.3.4,<1",
+  "scipy>=1.11,<2",
+  "setuptools==80.9.0",
+  "soundfile>=0.12.1,<1",
+  "torchcrepe>=0.0.22,<1",
+  "wheel>=0.44,<1",
+  "rvc @ git+https://github.com/RVC-Project/Retrieval-based-Voice-Conversion.git@7b284a634667c34103eaaeed972b48ccdb4b893e",
+  "villager-rvc-protocol",
+]
+
+[project.optional-dependencies]
+cpu = [
+  "torch==2.1.2",
+  "torchaudio==2.1.2",
+]
+cuda121 = [
+  "torch==2.1.2+cu121",
+  "torchaudio==2.1.2+cu121",
+  "triton==2.1.0",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/villager_rvc_worker"]
+
+[tool.hatch.metadata]
+allow-direct-references = true
+
+[tool.uv]
+package = true
+conflicts = [[{ extra = "cpu" }, { extra = "cuda121" }]]
+no-build-isolation-package = ["fairseq"]
+build-constraint-dependencies = ["torch==2.1.2"]
+
+[[tool.uv.dependency-metadata]]
+name = "fairseq"
+version = "0.12.2"
+requires-dist = [
+  "bitarray",
+  "cffi",
+  "cython",
+  "hydra-core>=1.3.2",
+  "numpy>=1.21.3",
+  "omegaconf>2.1",
+  "packaging",
+  "regex",
+  "sacrebleu>=1.4.12",
+  "scikit-learn",
+  "torch>=1.13",
+  "torchaudio>=0.8.0",
+  "tqdm",
+]
+
+[[tool.uv.dependency-metadata]]
+name = "rvc"
+version = "0.3.5"
+requires-dist = [
+  "av>=14,<17",
+  "fairseq @ git+https://github.com/Tps-F/fairseq.git@ff08af27e302625a27d3502b0791a9367c8af0c7",
+  "faiss-cpu>=1.7.4,<2",
+  "librosa>=0.10.1,<1",
+  "numpy==1.26.4",
+  "onnxruntime>=1.18,<2",
+  "praat-parselmouth>=0.4.3,<1",
+  "pyworld>=0.3.4,<1",
+  "scipy>=1.11,<2",
+  "soundfile>=0.12.1,<1",
+  "torch==2.1.2",
+  "torchaudio==2.1.2",
+  "torchcrepe>=0.0.22,<1",
+]
+
+[[tool.uv.index]]
+name = "pytorch-cpu"
+url = "https://download.pytorch.org/whl/cpu"
+explicit = true
+
+[[tool.uv.index]]
+name = "pytorch-cu121"
+url = "https://download.pytorch.org/whl/cu121"
+explicit = true
+
+[tool.uv.sources]
+villager-rvc-protocol = { path = "../../packages/rvc-protocol" }
+torch = [
+  { index = "pytorch-cpu", extra = "cpu" },
+  { index = "pytorch-cu121", extra = "cuda121" },
+]
+torchaudio = [
+  { index = "pytorch-cpu", extra = "cpu" },
+  { index = "pytorch-cu121", extra = "cuda121" },
+]

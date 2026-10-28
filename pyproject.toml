@@ -1,0 +1,118 @@
+[build-system]
+requires = ["hatchling>=1.27"]
+build-backend = "hatchling.build"
+
+[project]
+name = "villager-tts"
+version = "0.1.0"
+description = "Low-latency HTTP speech synthesis with a Minecraft villager voice"
+readme = "README.md"
+requires-python = ">=3.11,<3.12"
+license = { text = "Proprietary" }
+dependencies = [
+  "fastapi>=0.115.0,<1",
+  "numpy>=1.26.4,<2.1",
+  "prometheus-client>=0.21.0,<1",
+  "pydantic-settings>=2.6.0,<3",
+  "PyYAML>=6.0.2,<7",
+  # sherpa's source metadata omits this wheel-only transitive dependency, so both
+  # packages are explicit to keep uv locks complete and reproducible.
+  "sherpa-onnx==1.13.8",
+  "sherpa-onnx-core==1.13.8",
+  "soxr>=0.5.0,<1",
+  "uvicorn[standard]>=0.32.0,<1",
+  "villager-rvc-protocol",
+]
+
+[dependency-groups]
+dev = [
+  "httpx>=0.27.2,<1",
+  "mypy>=1.13.0,<2",
+  "poethepoet>=0.30.0,<1",
+  "pre-commit>=4.0.0,<5",
+  "pytest>=8.3.3,<9",
+  "pytest-asyncio>=0.24.0,<1",
+  "pytest-cov>=6.0.0,<7",
+  "ruff>=0.8.0,<1",
+  "types-PyYAML>=6.0.12.20240917,<7",
+]
+release = ["python-semantic-release>=10.7.0,<11"]
+
+[project.scripts]
+villager-tts = "villager_tts.__main__:main"
+villager-tts-download-models = "villager_tts.model_assets:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/villager_tts"]
+
+[tool.uv.sources]
+villager-rvc-protocol = { path = "packages/rvc-protocol" }
+
+[tool.ruff]
+target-version = "py311"
+line-length = 100
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+select = ["ALL"]
+ignore = [
+  "COM812",
+  "CPY001",
+  "D203",
+  "D213",
+  "D107",
+  "EM101",
+  "PERF401",
+  "PLR0913",
+  "RUF001",
+  "TRY003",
+]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**/*.py" = ["ANN", "D", "PLR2004", "S101"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["villager_rvc_worker", "villager_tts"]
+
+[tool.ruff.format]
+quote-style = "double"
+
+[tool.mypy]
+python_version = "3.11"
+strict = true
+files = ["src", "tests", "workers/rvc/src", "packages/rvc-protocol/src"]
+mypy_path = ["workers/rvc/src"]
+plugins = ["pydantic.mypy"]
+warn_unreachable = true
+
+[[tool.mypy.overrides]]
+module = ["soxr"]
+ignore_missing_imports = true
+
+[tool.pytest.ini_options]
+addopts = [
+  "--strict-config",
+  "--strict-markers",
+  "--cov=villager_tts",
+  "--cov=villager_rvc_worker",
+  "--cov-branch",
+  "--cov-report=term-missing",
+  "--cov-fail-under=85",
+]
+asyncio_mode = "auto"
+filterwarnings = ["error::RuntimeWarning"]
+pythonpath = ["workers/rvc/src"]
+testpaths = ["tests"]
+
+[tool.coverage.run]
+source = ["villager_tts", "villager_rvc_worker"]
+omit = ["src/villager_tts/__main__.py", "workers/rvc/src/villager_rvc_worker/__main__.py"]
+
+[tool.poe.tasks]
+format = "ruff format ."
+format-check = "ruff format --check ."
+lint = "ruff check ."
+typecheck = "mypy"
+test = "pytest"
+check = ["format-check", "lint", "typecheck", "test"]
+serve = "python -m villager_tts"
